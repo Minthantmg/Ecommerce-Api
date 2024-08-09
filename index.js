@@ -52,6 +52,16 @@ app.post('/product',async (req,res) =>{
     }
 })
 
+app.get('/product/:id',async (req,res)=>{
+    try {
+        const {id} = req.params
+        const productById = await Product.findById(id)
+        res.status(200).json(productById)
+    }catch (error){
+        res.status(500).json({message:error.message})
+    }
+})
+
 mongoose.connect('mongodb+srv://minthant180:09420059474mm@loginapi.mlckn.mongodb.net/LoginApi?retryWrites=true&w=majority&appName=LoginApi')
     .then(() => console.log('Connected!'))
     .catch(() => console.log('Connection Failed'))
