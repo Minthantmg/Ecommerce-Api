@@ -24,6 +24,20 @@ app.get('/user/:id',async (req,res)=>{
     }
 })
 
+app.put('/user/:id',async (req,res)=>{
+    try {
+        const {id} = req.params
+        const userById = await User.findOneAndUpdate(id,req.body)
+        if (!userById){
+            res.status(404).json({message:error.message})
+        }
+        const updatedUser = await User.findById(id)
+        res.status(200).json(updatedUser)
+    }catch (error){
+        res.status(500).json({message:error.message})
+    }
+})
+
 app.post('/register',async (req,res) =>{
     try {
         const userData = await User.create(req.body);
