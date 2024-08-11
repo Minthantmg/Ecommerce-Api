@@ -5,6 +5,15 @@ const User = require("./models/user");
 const Product = require("./models/product");
 app.use(express.json())
 
+app.post('/register',async (req,res) =>{
+    try {
+        const userData = await User.create(req.body);
+        res.status(200).json(userData)
+    }catch (error){
+        res.status(500).json({message: error.message})
+    }
+})
+
 app.get('/users',async (req,res) =>{
     try {
         const users = await User.find({})
@@ -24,38 +33,24 @@ app.get('/user/:id',async (req,res)=>{
     }
 })
 
-app.put('/user/:id',async (req,res)=>{
+app.put('/user/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        const userById = await User.findOneAndUpdate(id,req.body)
-        if (!userById){
-            res.status(404).json({message:error.message})
+        const { id } = req.params;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
         }
-        const updatedUser = await User.findById(id)
-        res.status(200).json(updatedUser)
-    }catch (error){
-        res.status(500).json({message:error.message})
-    }
-})
+        const userById = await User.findByIdAndUpdate(id, req.body);
 
-app.post('/register',async (req,res) =>{
-    try {
-        const userData = await User.create(req.body);
-        res.status(200).json(userData)
-    }catch (error){
-        res.status(500).json({message: error.message})
+        if (!userById) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const updatedUser = await User.findById(id);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
-})
-
-
-app.get('/products',async (req,res)=>{
-    try {
-        const products = await Product.find({})
-        res.status(200).json(products)
-    }catch (error){
-        res.status(500).json({message:error.message})
-    }
-})
+});
 
 app.post('/product',async (req,res) =>{
     try {
@@ -63,6 +58,15 @@ app.post('/product',async (req,res) =>{
         res.status(200).json(product)
     }catch (error){
         res.status(500).json({message: error.message})
+    }
+})
+
+app.get('/products',async (req,res)=>{
+    try {
+        const products = await Product.find({})
+        res.status(200).json(products)
+    }catch (error){
+        res.status(500).json({message:error.message})
     }
 })
 
@@ -75,6 +79,27 @@ app.get('/product/:id',async (req,res)=>{
         res.status(500).json({message:error.message})
     }
 })
+
+app.put('/product/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
+        const productById = await Product.findByIdAndUpdate(id, req.body);
+
+        if (!productById) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const updatedProduct = await Product.findById(id);
+        res.status(200).json(updatedProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 
 mongoose.connect('mongodb+srv://minthant180:09420059474mm@loginapi.mlckn.mongodb.net/LoginApi?retryWrites=true&w=majority&appName=LoginApi')
     .then(() => console.log('Connected!'))
