@@ -99,6 +99,24 @@ app.put('/product/:id', async (req, res) => {
     }
 });
 
+app.delete('/product/:id',async (req,res)=>{
+    try {
+        const {id} = req.params;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
+
+        const product = await Product.findByIdAndDelete(id);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.status(200).json({message: 'Product deleted successfully!'});
+    }catch (error){
+        res.status(500).json({message:error.message})
+    }
+})
+
 
 
 mongoose.connect('mongodb+srv://minthant180:09420059474mm@loginapi.mlckn.mongodb.net/LoginApi?retryWrites=true&w=majority&appName=LoginApi')
