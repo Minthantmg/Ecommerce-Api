@@ -3,7 +3,13 @@ const app = express()
 const mongoose = require('mongoose');
 const User = require("./models/user");
 const Product = require("./models/product");
+const productRoutes = require('./route/product.route');
+
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+
+//routes
+app.use('/product',productRoutes)
 
 app.post('/register',async (req,res) =>{
     try {
@@ -58,76 +64,58 @@ app.put('/user/:id', async (req, res) => {
     }
 });
 
-app.post('/product',async (req,res) =>{
-    try {
-        const product = await Product.create(req.body);
-        res.status(200).json(product)
-    }catch (error){
-        res.status(500).json({message: error.message})
-    }
-})
+// app.get('/product/:id',async (req,res)=>{
+//     try {
+//         const {id} = req.params
+//         if (!mongoose.isValidObjectId(id)) {
+//             return res.status(400).json({ message: 'Invalid product ID' });
+//         }
+//         const productById = await Product.findById(id)
+//         if(productById == null){
+//             res.status(302).json({message: "Invalid product ID"})
+//         }
+//         res.status(200).json(productById)
+//     }catch (error){
+//         res.status(500).json({message:error.message})
+//     }
+// })
 
-app.get('/products',async (req,res)=>{
-    try {
-        const products = await Product.find({})
-        res.status(200).json(products)
-    }catch (error){
-        res.status(500).json({message:error.message})
-    }
-})
+// app.put('/product/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         if (!mongoose.isValidObjectId(id)) {
+//             return res.status(400).json({ message: 'Invalid product ID' });
+//         }
+//         const productById = await Product.findByIdAndUpdate(id, req.body);
+//
+//         if (!productById) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+//         const updatedProduct = await Product.findById(id);
+//         res.status(200).json(updatedProduct);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: error.message });
+//     }
+// });
 
-app.get('/product/:id',async (req,res)=>{
-    try {
-        const {id} = req.params
-        if (!mongoose.isValidObjectId(id)) {
-            return res.status(400).json({ message: 'Invalid product ID' });
-        }
-        const productById = await Product.findById(id)
-        if(productById == null){
-            res.status(302).json({message: "Invalid product ID"})
-        }
-        res.status(200).json(productById)
-    }catch (error){
-        res.status(500).json({message:error.message})
-    }
-})
-
-app.put('/product/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        if (!mongoose.isValidObjectId(id)) {
-            return res.status(400).json({ message: 'Invalid product ID' });
-        }
-        const productById = await Product.findByIdAndUpdate(id, req.body);
-
-        if (!productById) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        const updatedProduct = await Product.findById(id);
-        res.status(200).json(updatedProduct);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message });
-    }
-});
-
-app.delete('/product/:id',async (req,res)=>{
-    try {
-        const {id} = req.params;
-        if (!mongoose.isValidObjectId(id)) {
-            return res.status(400).json({ message: 'Invalid product ID' });
-        }
-
-        const product = await Product.findByIdAndDelete(id);
-
-        if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-        res.status(200).json({message: 'Product deleted successfully!'});
-    }catch (error){
-        res.status(500).json({message:error.message})
-    }
-})
+// app.delete('/product/:id',async (req,res)=>{
+//     try {
+//         const {id} = req.params;
+//         if (!mongoose.isValidObjectId(id)) {
+//             return res.status(400).json({ message: 'Invalid product ID' });
+//         }
+//
+//         const product = await Product.findByIdAndDelete(id);
+//
+//         if (!product) {
+//             return res.status(404).json({ message: 'Product not found' });
+//         }
+//         res.status(200).json({message: 'Product deleted successfully!'});
+//     }catch (error){
+//         res.status(500).json({message:error.message})
+//     }
+// })
 
 
 
