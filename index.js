@@ -3,9 +3,12 @@ const app = express()
 const mongoose = require('mongoose');
 const User = require("./models/user");
 const productRoutes = require('./route/product.route');
+require('dotenv').config();
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+
+const MongoDbClient = process.env.MONGO_URI;
 
 //routes
 app.use('/product',productRoutes)
@@ -64,7 +67,7 @@ app.put('/user/:id', async (req, res) => {
 });
 
 
-mongoose.connect('mongodb+srv://minthant180:09420059474mm@loginapi.mlckn.mongodb.net/LoginApi?retryWrites=true&w=majority&appName=LoginApi')
+mongoose.connect(MongoDbClient)
     .then(() => console.log('Connected!'))
     .catch(() => console.log('Connection Failed'))
 
