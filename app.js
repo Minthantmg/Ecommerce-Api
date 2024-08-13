@@ -14,7 +14,7 @@ const MongoDbClient = process.env.MONGO_URI;
 app.use('/product',productRoutes)
 
 app.get('/',(req,res) =>{
-    res.status(200).json({message: 'Hello from ecommerce Api'})
+    res.status(200).json('Hello from ecommerce Api')
 })
 
 app.post('/register',async (req,res) =>{
