@@ -26,7 +26,13 @@ app.get('/users',async (req,res) =>{
 app.get('/user/:id',async (req,res)=>{
     try {
         const {id} = req.params
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
         const userById = await User.findById(id)
+        if(userById == null){
+            res.status(302).json({message: "Invalid user ID"})
+        }
         res.status(200).json(userById)
     }catch (error){
         res.status(500).json({message:error.message})
@@ -73,7 +79,13 @@ app.get('/products',async (req,res)=>{
 app.get('/product/:id',async (req,res)=>{
     try {
         const {id} = req.params
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
         const productById = await Product.findById(id)
+        if(productById == null){
+            res.status(302).json({message: "Invalid product ID"})
+        }
         res.status(200).json(productById)
     }catch (error){
         res.status(500).json({message:error.message})
