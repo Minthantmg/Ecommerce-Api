@@ -9,7 +9,7 @@ require('dotenv').config();
 
 index.use(express.json())
 index.use(express.urlencoded({extended: false}))
-app.use(corsMiddleware);
+index.use(corsMiddleware);
 
 const MongoDbClient = process.env.MONGO_URI;
 
