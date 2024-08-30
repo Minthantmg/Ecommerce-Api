@@ -5,5 +5,19 @@
       "source": "/(.*)",
       "destination": "/api"
     }
+  ],
+  "headers": [
+    {
+      "source": "/api/products",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "http://localhost:3000" }
+      ]
+    },
+    {
+      "source": "/api(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "http://localhost:3000" }
+      ]
+    }
   ]
 }
