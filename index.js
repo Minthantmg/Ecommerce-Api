@@ -6,10 +6,10 @@ const productRoutes = require('./route/product.route');
 const Product = require("./models/product");
 const corsMiddleware = require('./middleware/cors');
 require('dotenv').config();
-
+index.use(corsMiddleware);
 index.use(express.json())
 index.use(express.urlencoded({extended: false}))
-index.use(corsMiddleware);
+
 
 const MongoDbClient = process.env.MONGO_URI;
 
