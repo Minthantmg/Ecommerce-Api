@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 const User = require("./models/user");
 const productRoutes = require('./route/product.route');
 const Product = require("./models/product");
+const corsMiddleware = require('./middleware/cors');
 require('dotenv').config();
 
 index.use(express.json())
 index.use(express.urlencoded({extended: false}))
+app.use(corsMiddleware);
 
 const MongoDbClient = process.env.MONGO_URI;
 
