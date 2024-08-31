@@ -9,7 +9,6 @@ require('dotenv').config();
 index.use(express.json());
 index.use(express.urlencoded({ extended: false }));
 
-const MongoDbClient = process.env.MONGO_URI;
 
 const corsOptions = {
     origin: '*',
@@ -22,6 +21,9 @@ index.use(cors(corsOptions));
 
 // Routes
 index.use('/product', productRoutes);
+
+const MongoDbClient = process.env.MONGO_URI;
+
 
 index.get('/', (req, res) => {
     res.status(200).json('Hello from ecommerce Api');
