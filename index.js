@@ -1,12 +1,13 @@
 const express = require('express')
+var cors = require('cors')
 const index = express()
+index.use(cors())
 const mongoose = require('mongoose');
 const User = require("./models/user");
 const productRoutes = require('./route/product.route');
 const Product = require("./models/product");
-const corsMiddleware = require('./middleware/cors');
+
 require('dotenv').config();
-index.use(corsMiddleware);
 index.use(express.json())
 index.use(express.urlencoded({extended: false}))
 
